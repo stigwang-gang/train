@@ -1,4 +1,4 @@
-package train.member.aspect;
+package train;
 
 import cn.hutool.core.util.RandomUtil;
 import com.alibaba.fastjson.JSONObject;
@@ -33,10 +33,10 @@ public class LogAspect {
     /**
      * 定义一个切点
      */
-    @Pointcut("execution(public * train.member..*Controller.*(..))")
+    @Pointcut("execution(public * train..*Controller.*(..))")
     public void controllerPointcut() {
     }
-    //进入切点之前
+
     @Before("controllerPointcut()")
     public void doBefore(JoinPoint joinPoint) {
 
