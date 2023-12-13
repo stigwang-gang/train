@@ -1,2 +1,14 @@
+###
+POST http://localhost:8001/member/member/register
+Content-Type: application/x-www-form-urlencoded
+
+mobile=12345
+
+
+###
 GET http://localhost:8001/member/member/count
 Accept: application/json
+
+
+
+
