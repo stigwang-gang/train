@@ -3,6 +3,8 @@ package train.member.service;
 import cn.hutool.core.collection.CollUtil;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import train.exception.BusinessException;
+import train.exception.BusinessExceptionEnum;
 import train.member.domain.Member;
 import train.member.domain.MemberExample;
 import train.member.mapper.MemberMapper;
@@ -23,7 +25,7 @@ public class MemberService {
             memberExample.createCriteria().andMobileEqualTo(mobile);
             List<Member> list = memberMapper.selectByExample(memberExample);
                 if (CollUtil.isNotEmpty(list)) {           // return list.get(0).getId();
-                    throw new RuntimeException("手机号已注册");
+                    throw new BusinessException(BusinessExceptionEnum.MEMBER_MOBILE_EXIST);
                 }
 
 
