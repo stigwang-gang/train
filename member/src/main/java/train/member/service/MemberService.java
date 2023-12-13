@@ -9,6 +9,7 @@ import train.member.domain.Member;
 import train.member.domain.MemberExample;
 import train.member.mapper.MemberMapper;
 import train.member.req.MemberRegisterReq;
+import train.util.SnowUtil;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class MemberService {
 
 
             Member member=new Member();
-            member.setId(System.currentTimeMillis());
+            member.setId(SnowUtil.getSnowflakeNextId());
             member.setMobile(mobile);
             memberMapper.insert(member);
             return member.getId();
