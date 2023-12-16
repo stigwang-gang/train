@@ -9,6 +9,12 @@ Content-Type: application/x-www-form-urlencoded
 
 mobile=13000000000
 
+###
+POST http://localhost:8001/member/member/login
+Content-Type: application/x-www-form-urlencoded
+
+mobile=13000000000&code=8888
+
 
 ###
 GET http://localhost:8001/member/member/count
