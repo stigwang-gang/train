@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import train.member.req.MemberRegisterReq;
+import train.member.req.MemberSendCodeReq;
 import train.member.service.MemberService;
 import train.resp.CommonResp;
 
@@ -29,5 +30,12 @@ public class MemberController {
 //        CommonResp<Long>commonResp=new CommonResp<>();
 //        commonResp.setContent(register);
         return new CommonResp<>(register);
+    }
+    @PostMapping("/send-code")
+    public CommonResp<Long>  sendCode(@Valid MemberSendCodeReq req) {
+         memberService.sendCode(req);
+//        CommonResp<Long>commonResp=new CommonResp<>();
+//        commonResp.setContent(register);
+        return new CommonResp<>();
     }
 }
