@@ -25,7 +25,7 @@ import java.util.Random;
 @Service
 public class MemberService {
     private static final Logger LOG = LoggerFactory.getLogger(MemberService.class);
-@Resource
+    @Resource
     private MemberMapper memberMapper;
         public int count(){
             return Math.toIntExact(memberMapper.countByExample(null));
