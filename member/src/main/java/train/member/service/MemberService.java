@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.jwt.JWTUtil;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +18,11 @@ import train.member.req.MemberLoginReq;
 import train.member.req.MemberRegisterReq;
 import train.member.req.MemberSendCodeReq;
 import train.member.resp.MemberLoginResp;
+import train.util.JwtUtil;
 import train.util.SnowUtil;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @Service
@@ -79,7 +82,10 @@ public class MemberService {
         if(!"8888".equals(code)){
             throw new BusinessException(BusinessExceptionEnum.MEMBER_MOBILE_CODE_ERROR);
         }
-            return BeanUtil.copyProperties(memberDB,MemberLoginResp.class);
+        MemberLoginResp memberLoginResp = BeanUtil.copyProperties(memberDB, MemberLoginResp.class);
+        String token = JwtUtil.createToken(memberLoginResp.getId(), memberLoginResp.getMobile());
+        memberLoginResp.setToken(token);
+        return memberLoginResp;
     }
 
     private Member selectByMobile(String mobile) {
