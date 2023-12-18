@@ -16,7 +16,8 @@ axios.interceptors.request.use(function (config) {
         config.headers.token = _token;
         console.log("请求headers增加token:", _token);
     }
-    return config;}, error => {
+    return config;
+    },error => {
     return Promise.reject(error);
 });
 axios.interceptors.response.use(function (response) {
