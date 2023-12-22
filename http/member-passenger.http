@@ -1,4 +1,14 @@
 
+POST http://localhost:8000/member/passenger/save
+Content-Type: application/json
+token: {{token1}}
+
+{
+  "name": "test2",
+  "idCard": "54321",
+  "type": "2"
+}
+
 ###
 POST http://localhost:8000/member/passenger/save
 Content-Type: application/json
@@ -14,7 +24,12 @@ token: {{token1}}
 
 
 ###
-GET http://localhost:8000/member/passenger/query-list?page=2&size=2
+GET http://localhost:8000/member/passenger/query-list?page=1&size=2
+Accept: application/json
+token: {{token1}}
+
+###
+DELETE http://localhost:8000/member/passenger/delete/1737883816829259776
 Accept: application/json
 token: {{token1}}
 

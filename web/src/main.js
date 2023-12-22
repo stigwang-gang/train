@@ -5,6 +5,7 @@ import store from './store'
 import Antd, {notification} from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 import axios from "axios";
+import './assets/js/enums';
 createApp(App).use(store).use(router).use(Antd).mount('#app')
 /**
 * axios拦截器

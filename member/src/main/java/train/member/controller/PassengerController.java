@@ -6,12 +6,10 @@ import org.springframework.web.bind.annotation.*;
 import train.context.LoginMemberContext;
 import train.member.req.PassengerQueryReq;
 import train.member.resp.PassengerQueryResp;
-import train.member.resp.PassengerSaveReq;
+import train.member.req.PassengerSaveReq;
 import train.member.service.PassengerService;
 import train.resp.CommonResp;
 import train.resp.PageResp;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/passenger")
@@ -29,5 +27,11 @@ public class PassengerController {
         req.setMemberId(LoginMemberContext.getId());
         PageResp<PassengerQueryResp> list = passengerService.queryList(req);
         return new CommonResp<>(list);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public CommonResp<Object> delete(@PathVariable Long id) {
+        passengerService.delete(id);
+        return new CommonResp<>();
     }
 }

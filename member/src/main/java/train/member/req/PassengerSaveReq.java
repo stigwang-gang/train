@@ -1,4 +1,4 @@
-package train.member.resp;
+package train.member.req;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
