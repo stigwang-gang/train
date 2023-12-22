@@ -1,4 +1,4 @@
-package train.member.service;
+package train.${module}.service;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
@@ -7,13 +7,12 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
-import train.context.LoginMemberContext;
-import train.member.domain.${Domain};
-import train.member.domain.${Domain}Example;
-import train.member.mapper.${Domain}Mapper;
-import train.member.req.${Domain}QueryReq;
-import train.member.req.${Domain}SaveReq;
-import train.member.resp.${Domain}QueryResp;
+import train.${module}.domain.${Domain};
+import train.${module}.domain.${Domain}Example;
+import train.${module}.mapper.${Domain}Mapper;
+import train.${module}.req.${Domain}QueryReq;
+import train.${module}.req.${Domain}SaveReq;
+import train.${module}.resp.${Domain}QueryResp;
 import train.resp.PageResp;
 import train.util.SnowUtil;
 import org.slf4j.Logger;
@@ -34,7 +33,6 @@ public class ${Domain}Service {
         DateTime now = DateTime.now();
         ${Domain} ${domain} = BeanUtil.copyProperties(req, ${Domain}.class);
         if (ObjectUtil.isNull(${domain}.getId())) {
-            ${domain}.setMemberId(LoginMemberContext.getId());
             ${domain}.setId(SnowUtil.getSnowflakeNextId());
             ${domain}.setCreateTime(now);
             ${domain}.setUpdateTime(now);
@@ -49,9 +47,6 @@ public class ${Domain}Service {
         ${Domain}Example ${domain}Example = new ${Domain}Example();
         ${domain}Example.setOrderByClause("id desc");
         ${Domain}Example.Criteria criteria = ${domain}Example.createCriteria();
-        if (ObjectUtil.isNotNull(req.getMemberId())) {
-            criteria.andMemberIdEqualTo(req.getMemberId());
-        }
 
         LOG.info("查询页码：{}", req.getPage());
         LOG.info("每页条数：{}", req.getSize());

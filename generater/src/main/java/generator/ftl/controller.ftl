@@ -1,13 +1,13 @@
-package train.member.controller;
+package train.${module}.controller;
 
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import train.context.LoginMemberContext;
-import train.member.req.${Domain}QueryReq;
-import train.member.resp.${Domain}QueryResp;
-import train.member.req.${Domain}SaveReq;
-import train.member.service.${Domain}Service;
+import train.${module}.req.${Domain}QueryReq;
+import train.${module}.resp.${Domain}QueryResp;
+import train.${module}.req.${Domain}SaveReq;
+import train.${module}.service.${Domain}Service;
 import train.resp.CommonResp;
 import train.resp.PageResp;
 
