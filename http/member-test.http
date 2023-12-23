@@ -9,3 +9,7 @@ Accept: application/json
 ###
 GET http://localhost:8000/member/member/count
 token:123
+
+###
+GET http://localhost:8000/business/hello
+Accept: application/json
