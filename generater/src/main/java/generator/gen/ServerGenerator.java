@@ -1,4 +1,4 @@
-package generator.server;
+package generator.gen;
 
 import freemarker.template.TemplateException;
 import generator.util.DbUtil;
@@ -8,7 +8,6 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
