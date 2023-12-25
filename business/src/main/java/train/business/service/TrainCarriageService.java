@@ -9,6 +9,7 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import train.business.domain.TrainCarriage;
 import train.business.domain.TrainCarriageExample;
+import train.business.enums.SeatColEnum;
 import train.business.mapper.TrainCarriageMapper;
 import train.business.req.TrainCarriageQueryReq;
 import train.business.req.TrainCarriageSaveReq;
@@ -31,6 +32,11 @@ public class TrainCarriageService {
 
     public void save(TrainCarriageSaveReq req) {
         DateTime now = DateTime.now();
+        // 自动计算出列数和总座位数
+//        List<SeatColEnum> seatColEnums = SeatColEnum.getColsByType(req.getSeatType());
+//        req.setColCount(seatColEnums.size());
+//        req.setSeatCount(req.getColCount() * req.getRowCount());
+
         TrainCarriage trainCarriage = BeanUtil.copyProperties(req, TrainCarriage.class);
         if (ObjectUtil.isNull(trainCarriage.getId())) {
             trainCarriage.setId(SnowUtil.getSnowflakeNextId());
@@ -70,6 +76,14 @@ public class TrainCarriageService {
 
     public void delete(Long id) {
         trainCarriageMapper.deleteByPrimaryKey(id);
+    }
+
+    public List<TrainCarriage> selectByTrainCode(String trainCode) {
+        TrainCarriageExample trainCarriageExample = new TrainCarriageExample();
+        trainCarriageExample.setOrderByClause("`index` asc");
+        TrainCarriageExample.Criteria criteria = trainCarriageExample.createCriteria();
+        criteria.andTrainCodeEqualTo(trainCode);
+        return trainCarriageMapper.selectByExample(trainCarriageExample);
     }
 }
 
