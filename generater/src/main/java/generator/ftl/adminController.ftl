@@ -1,4 +1,4 @@
-package train.${module}.controller;
+package train.${module}.controller.admin;
 
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
@@ -12,8 +12,8 @@ import train.resp.CommonResp;
 import train.resp.PageResp;
 
 @RestController
-@RequestMapping("/${do_main}")
-public class ${Domain}Controller {
+@RequestMapping("/admin/${do_main}")
+public class ${Domain}AdminController {
 
     @Resource
     private ${Domain}Service ${domain}Service;
