@@ -11,6 +11,8 @@ import train.business.service.TrainService;
 import train.resp.CommonResp;
 import train.resp.PageResp;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/admin/train")
 public class TrainAdminController {
@@ -36,4 +38,9 @@ public class TrainAdminController {
         return new CommonResp<>();
     }
 
+    @GetMapping("/query-all")
+    public CommonResp<List<TrainQueryResp>> queryList() {
+        List<TrainQueryResp> list = trainService.queryAll();
+        return new CommonResp<>(list);
+    }
 }
