@@ -38,6 +38,7 @@ public class TrainSeatService {
 
     public void save(TrainSeatSaveReq req) {
         DateTime now = DateTime.now();
+
         TrainSeat trainSeat = BeanUtil.copyProperties(req, TrainSeat.class);
         if (ObjectUtil.isNull(trainSeat.getId())) {
             trainSeat.setId(SnowUtil.getSnowflakeNextId());
