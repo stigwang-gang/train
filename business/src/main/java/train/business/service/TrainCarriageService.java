@@ -1,12 +1,14 @@
 package train.business.service;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.ObjectUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import train.business.domain.Train;
 import train.business.domain.TrainCarriage;
 import train.business.domain.TrainCarriageExample;
 import train.business.enums.SeatColEnum;
@@ -14,6 +16,8 @@ import train.business.mapper.TrainCarriageMapper;
 import train.business.req.TrainCarriageQueryReq;
 import train.business.req.TrainCarriageSaveReq;
 import train.business.resp.TrainCarriageQueryResp;
+import train.exception.BusinessException;
+import train.exception.BusinessExceptionEnum;
 import train.resp.PageResp;
 import train.util.SnowUtil;
 import org.slf4j.Logger;
@@ -39,13 +43,39 @@ public class TrainCarriageService {
 
         TrainCarriage trainCarriage = BeanUtil.copyProperties(req, TrainCarriage.class);
         if (ObjectUtil.isNull(trainCarriage.getId())) {
+
+            // 保存之前，先校验唯一键是否存在
+            TrainCarriage trainCarriageDB = selectByUnique(req.getTrainCode(), req.getIndex());
+            if (ObjectUtil.isNotEmpty(trainCarriageDB)) {
+                throw new BusinessException(BusinessExceptionEnum.BUSINESS_TRAIN_CARRIAGE_INDEX_UNIQUE_ERROR);
+            }
             trainCarriage.setId(SnowUtil.getSnowflakeNextId());
             trainCarriage.setCreateTime(now);
             trainCarriage.setUpdateTime(now);
             trainCarriageMapper.insert(trainCarriage);
         } else {
+            // 更新现有车厢的逻辑
+            // 检查是否存在与新值相同但主键不同的记录
+            TrainCarriage existingTrainCarriage = selectByUnique(req.getTrainCode(), req.getIndex());
+            if (ObjectUtil.isNotEmpty(existingTrainCarriage) && !existingTrainCarriage.getId().equals(trainCarriage.getId())) {
+                // 如果存在重复记录且主键不同，抛出业务异常
+                throw new BusinessException(BusinessExceptionEnum.BUSINESS_TRAIN_CARRIAGE_INDEX_UNIQUE_ERROR);
+            }
             trainCarriage.setUpdateTime(now);
             trainCarriageMapper.updateByPrimaryKey(trainCarriage);
+        }
+    }
+
+    private TrainCarriage selectByUnique(String trainCode, Integer index) {
+        TrainCarriageExample trainCarriageExample = new TrainCarriageExample();
+        trainCarriageExample.createCriteria()
+                .andTrainCodeEqualTo(trainCode)
+                .andIndexEqualTo(index);
+        List<TrainCarriage> list = trainCarriageMapper.selectByExample(trainCarriageExample);
+        if (CollUtil.isNotEmpty(list)) {
+            return list.get(0);
+        } else {
+            return null;
         }
     }
 

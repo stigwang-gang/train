@@ -1,6 +1,7 @@
 package train.business.service;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.ObjectUtil;
 import com.github.pagehelper.PageHelper;
@@ -13,6 +14,8 @@ import train.business.mapper.TrainMapper;
 import train.business.req.TrainQueryReq;
 import train.business.req.TrainSaveReq;
 import train.business.resp.TrainQueryResp;
+import train.exception.BusinessException;
+import train.exception.BusinessExceptionEnum;
 import train.resp.PageResp;
 import train.util.SnowUtil;
 import org.slf4j.Logger;
@@ -33,16 +36,41 @@ public class TrainService {
         DateTime now = DateTime.now();
         Train train = BeanUtil.copyProperties(req, Train.class);
         if (ObjectUtil.isNull(train.getId())) {
+
+            // 保存之前，先校验唯一键是否存在
+            Train trainDB = selectByUnique(req.getCode());
+            if (ObjectUtil.isNotEmpty(trainDB)) {
+                throw new BusinessException(BusinessExceptionEnum.BUSINESS_TRAIN_CODE_UNIQUE_ERROR);
+            }
+
             train.setId(SnowUtil.getSnowflakeNextId());
             train.setCreateTime(now);
             train.setUpdateTime(now);
             trainMapper.insert(train);
         } else {
+            // 更新现有车厢的逻辑
+            // 检查是否存在与新值相同但主键不同的记录
+            Train existingTrainDB = selectByUnique(req.getCode());
+            if (ObjectUtil.isNotEmpty(existingTrainDB) && !existingTrainDB.getId().equals(train.getId())) {
+                // 如果存在重复记录且主键不同，抛出业务异常
+                throw new BusinessException(BusinessExceptionEnum.BUSINESS_TRAIN_CARRIAGE_INDEX_UNIQUE_ERROR);
+            }
             train.setUpdateTime(now);
             trainMapper.updateByPrimaryKey(train);
         }
     }
 
+    private Train selectByUnique(String code) {
+        TrainExample trainExample = new TrainExample();
+        trainExample.createCriteria()
+                .andCodeEqualTo(code);
+        List<Train> list = trainMapper.selectByExample(trainExample);
+        if (CollUtil.isNotEmpty(list)) {
+            return list.get(0);
+        } else {
+            return null;
+        }
+    }
     public PageResp<TrainQueryResp> queryList(TrainQueryReq req) {
         TrainExample trainExample = new TrainExample();
         trainExample.setOrderByClause("id asc");
