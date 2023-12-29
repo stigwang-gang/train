@@ -214,7 +214,7 @@ export default defineComponent({
           page: param.page,
           size: param.size,
           code: params.value.code,
-          date: params.value.date
+              date: params.value.date
         }
       }).then((response) => {
         loading.value = false;
