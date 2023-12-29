@@ -100,57 +100,56 @@ export default defineComponent({
       date: null
     });
     const columns = [
-    {
-      title: '日期',
-      dataIndex: 'date',
-      key: 'date',
-    },
-    {
-      title: '车次编号',
-      dataIndex: 'trainCode',
-      key: 'trainCode',
-    },
-    {
-      title: '站序',
-      dataIndex: 'index',
-      key: 'index',
-    },
-    {
-      title: '站名',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: '站名拼音',
-      dataIndex: 'namePinyin',
-      key: 'namePinyin',
-    },
-    {
-      title: '进站时间',
-      dataIndex: 'inTime',
-      key: 'inTime',
-    },
-    {
-      title: '出站时间',
-      dataIndex: 'outTime',
-      key: 'outTime',
-    },
-    {
-      title: '停站时长',
-      dataIndex: 'stopTime',
-      key: 'stopTime',
-    },
-    {
-      title: '里程（公里）',
-      dataIndex: 'km',
-      key: 'km',
-    },
-    {
-      title: '操作',
-      dataIndex: 'operation'
-    }
+      {
+        title: '日期',
+        dataIndex: 'date',
+        key: 'date',
+      },
+      {
+        title: '车次编号',
+        dataIndex: 'trainCode',
+        key: 'trainCode',
+      },
+      {
+        title: '站序',
+        dataIndex: 'index',
+        key: 'index',
+      },
+      {
+        title: '站名',
+        dataIndex: 'name',
+        key: 'name',
+      },
+      {
+        title: '站名拼音',
+        dataIndex: 'namePinyin',
+        key: 'namePinyin',
+      },
+      {
+        title: '进站时间',
+        dataIndex: 'inTime',
+        key: 'inTime',
+      },
+      {
+        title: '出站时间',
+        dataIndex: 'outTime',
+        key: 'outTime',
+      },
+      {
+        title: '停站时长',
+        dataIndex: 'stopTime',
+        key: 'stopTime',
+      },
+      {
+        title: '里程（公里）',
+        dataIndex: 'km',
+        key: 'km',
+      },
+      {
+        title: '操作',
+        dataIndex: 'operation'
+      }
     ];
-
     watch(() => dailyTrainStation.value.name, ()=>{
       if (Tool.isNotEmpty(dailyTrainStation.value.name)) {
         dailyTrainStation.value.namePinyin = pinyin(dailyTrainStation.value.name, { toneType: 'none'}).replaceAll(" ", "");
