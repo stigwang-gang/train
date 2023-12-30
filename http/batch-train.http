@@ -7,3 +7,13 @@ GET http://localhost:8000/batch/hello
 Accept: application/json
 
 ###
+
+
+
+POST http://localhost:8000/batch/admin/job/run
+Content-Type: application/json
+
+{
+"name": "train.batch.job.DailyTrainJob",
+"jobGroupName": "default"
+}
