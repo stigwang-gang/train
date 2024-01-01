@@ -10,6 +10,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import train.business.domain.DailyTrainCarriage;
 import train.business.domain.DailyTrainCarriageExample;
 import train.business.domain.TrainCarriage;
@@ -88,7 +89,7 @@ public class DailyTrainCarriageService {
     public void delete(Long id) {
         dailyTrainCarriageMapper.deleteByPrimaryKey(id);
     }
-
+    @Transactional
     public void genDaily(Date date, String trainCode) {
         LOG.info("生成日期【{}】车次【{}】的车厢信息开始", DateUtil.formatDate(date), trainCode);
 

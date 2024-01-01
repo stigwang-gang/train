@@ -9,6 +9,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import train.business.domain.DailyTrain;
 import train.business.domain.DailyTrainExample;
 import train.business.domain.Train;
@@ -45,6 +46,8 @@ public class DailyTrainService {
 
     @Resource
     private DailyTrainSeatService dailyTrainSeatService;
+    @Resource
+    private DailyTrainTicketService dailyTrainTicketService;
 
     public void save(DailyTrainSaveReq req) {
         DateTime now = DateTime.now();
@@ -96,6 +99,7 @@ public class DailyTrainService {
      * 生成某日所有车次信息，包括车次、车站、车厢、座位
      * @param date
      */
+    @Transactional
     public void genDaily(Date date) {
         List<Train> trainList = trainService.selectAll();
         if (CollUtil.isEmpty(trainList)) {
@@ -134,6 +138,9 @@ public class DailyTrainService {
 
         // 生成该车次的座位数据
         dailyTrainSeatService.genDaily(date, train.getCode());
+
+        // 生成该车次的余票数据
+        dailyTrainTicketService.genDaily(date, train.getCode());
 
         LOG.info("生成日期【{}】车次【{}】的信息结束", DateUtil.formatDate(date), train.getCode());
     }
