@@ -42,4 +42,5 @@ public class MemberController {
         MemberLoginResp resp = memberService.login(req);
         return new CommonResp<>(resp);
     }
+
 }
