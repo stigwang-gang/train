@@ -37,6 +37,7 @@ public class ConfirmOrderService {
 
     @Resource
     private ConfirmOrderMapper confirmOrderMapper;
+
     @Resource
     private DailyTrainTicketService dailyTrainTicketService;
 
@@ -79,6 +80,7 @@ public class ConfirmOrderService {
     public void delete(Long id) {
         confirmOrderMapper.deleteByPrimaryKey(id);
     }
+
     public void doConfirm(ConfirmOrderDoReq req) {
         // 省略业务数据校验，如：车次是否存在，余票是否存在，车次是否在有效期内，tickets条数>0，同乘客同车次是否已买过
 
@@ -86,7 +88,7 @@ public class ConfirmOrderService {
         String trainCode = req.getTrainCode();
         String start = req.getStart();
         String end = req.getEnd();
-
+        LOG.info("date时间{}",date);
         // 保存确认订单表，状态初始
         DateTime now = DateTime.now();
         ConfirmOrder confirmOrder = new ConfirmOrder();
@@ -123,6 +125,7 @@ public class ConfirmOrderService {
         // 为会员增加购票记录
         // 更新确认订单为成功
     }
+
     private static void reduceTickets(ConfirmOrderDoReq req, DailyTrainTicket dailyTrainTicket) {
         for (ConfirmOrderTicketReq ticketReq : req.getTickets()) {
             String seatTypeCode = ticketReq.getSeatTypeCode();
@@ -160,4 +163,5 @@ public class ConfirmOrderService {
         }
     }
 }
+
 

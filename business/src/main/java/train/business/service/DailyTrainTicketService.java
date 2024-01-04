@@ -40,12 +40,13 @@ public class DailyTrainTicketService {
     private static final Logger LOG = LoggerFactory.getLogger(DailyTrainTicketService.class);
 
     @Resource
-    private DailyTrainSeatService dailyTrainSeatService;
-    @Resource
-    private TrainStationService trainStationService;
-    @Resource
     private DailyTrainTicketMapper dailyTrainTicketMapper;
 
+    @Resource
+    private TrainStationService trainStationService;
+
+    @Resource
+    private DailyTrainSeatService dailyTrainSeatService;
 
     public void save(DailyTrainTicketSaveReq req) {
         DateTime now = DateTime.now();
@@ -77,6 +78,7 @@ public class DailyTrainTicketService {
         if (ObjUtil.isNotEmpty(req.getEnd())) {
             criteria.andEndEqualTo(req.getEnd());
         }
+
         LOG.info("查询页码：{}", req.getPage());
         LOG.info("每页条数：{}", req.getSize());
         PageHelper.startPage(req.getPage(), req.getSize());
@@ -97,6 +99,7 @@ public class DailyTrainTicketService {
     public void delete(Long id) {
         dailyTrainTicketMapper.deleteByPrimaryKey(id);
     }
+
     @Transactional
     public void genDaily(DailyTrain dailyTrain, Date date, String trainCode) {
         LOG.info("生成日期【{}】车次【{}】的余票信息开始", DateUtil.formatDate(date), trainCode);
@@ -122,9 +125,9 @@ public class DailyTrainTicketService {
             BigDecimal sumKM = BigDecimal.ZERO;
             for (int j = (i + 1); j < stationList.size(); j++) {
                 TrainStation trainStationEnd = stationList.get(j);
+                sumKM = sumKM.add(trainStationEnd.getKm());
 
                 DailyTrainTicket dailyTrainTicket = new DailyTrainTicket();
-                sumKM = sumKM.add(trainStationEnd.getKm());
                 dailyTrainTicket.setId(SnowUtil.getSnowflakeNextId());
                 dailyTrainTicket.setDate(date);
                 dailyTrainTicket.setTrainCode(trainCode);
