@@ -21,6 +21,7 @@ public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
     // 排除不需要拦截的请求
     if (path.contains("/admin")
     || path.contains("/hello")
+    || path.contains("/redis")
     || path.contains("/member/member/login")
     || path.contains("/member/member/send-code")) {
          LOG.info("不需要登录验证：{}", path);
