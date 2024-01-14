@@ -191,7 +191,19 @@ create table `confirm_order` (
                                  index `date_train_code_index` (`date`, `train_code`)
 ) engine=innodb default charset=utf8mb4 comment='确认订单';
 
-select id, `date`, train_code, `start`, start_pinyin, start_time, start_index, `end`, end_pinyin, end_time, end_index, ydz, ydz_price, edz, edz_price, rw, rw_price, yw, yw_price, create_time, update_time from daily_train_ticket
-WHERE ( `date` = '2024-01-04' and train_code = 'M5' and `start` = '成都' and `end` = '深圳' )
+
+CREATE TABLE `undo_log` (
+                            `id` bigint(20) NOT NULL AUTO_INCREMENT,
+                            `branch_id` bigint(20) NOT NULL,
+                            `xid` varchar(100) NOT NULL,
+                            `context` varchar(128) NOT NULL,
+                            `rollback_info` longblob NOT NULL,
+                            `log_status` int(11) NOT NULL,
+                            `log_created` datetime NOT NULL,
+                            `log_modified` datetime NOT NULL,
+                            `ext` varchar(100) DEFAULT NULL,
+                            PRIMARY KEY (`id`),
+                            UNIQUE KEY `ux_undo_log` (`xid`,`branch_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
