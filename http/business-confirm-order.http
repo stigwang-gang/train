@@ -1,0 +1,19 @@
+POST http://localhost:8000/business/confirm-order/do
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE3MDUyNjU5MDcsIm1vYmlsZSI6IjEzMDAwMDAwMDAwIiwiaWQiOjE3MzYxMTg3NTkzNjc3NzQyMDgsImV4cCI6MTcwNTMwMTkwNywiaWF0IjoxNzA1MjY1OTA3fQ.ciYbzuzES59DWxbxA3Mg6wQor2hlh-gF_wxnC3GsQRk
+
+{
+  "dailyTrainTicketId":1746647536455782400,
+  "date": 1704412800000 ,
+  "end":"深圳",
+  "start":"成都",
+  "tickets": [{
+    "passengerId":1737292602962743296,
+    "passengerIdCard":"12434",
+    "passengerName":"stig",
+    "passengerType":"1",
+    "seatTypeCode":"2"
+  }],
+  "trainCode":"M5"
+}
+###

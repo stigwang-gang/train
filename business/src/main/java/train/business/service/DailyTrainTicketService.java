@@ -68,7 +68,7 @@ public class DailyTrainTicketService {
         return queryList(req);
     }
 
-    @Cacheable(value = "DailyTrainTicketService.queryList")
+//    @Cacheable(value = "DailyTrainTicketService.queryList")
     public PageResp<DailyTrainTicketQueryResp> queryList(DailyTrainTicketQueryReq req) {
         DailyTrainTicketExample dailyTrainTicketExample = new DailyTrainTicketExample();
         dailyTrainTicketExample.setOrderByClause("id desc");
