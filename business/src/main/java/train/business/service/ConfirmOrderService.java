@@ -19,6 +19,7 @@ import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import train.business.controller.ConfirmOrderController;
 import train.business.domain.*;
 import train.business.enums.ConfirmOrderStatusEnum;
 import train.business.enums.SeatColEnum;
@@ -66,7 +67,6 @@ public class ConfirmOrderService {
 
     @Autowired
     private RedissonClient redissonClient;
-
     public void save(ConfirmOrderDoReq req) {
         DateTime now = DateTime.now();
         ConfirmOrder confirmOrder = BeanUtil.copyProperties(req, ConfirmOrder.class);
