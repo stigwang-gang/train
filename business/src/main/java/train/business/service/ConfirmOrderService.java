@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 import train.business.controller.ConfirmOrderController;
 import train.business.domain.*;
 import train.business.enums.ConfirmOrderStatusEnum;
+
+import train.business.enums.RedisKeyPreEnum;
 import train.business.enums.SeatColEnum;
 import train.business.enums.SeatTypeEnum;
 import train.business.mapper.ConfirmOrderMapper;
@@ -118,7 +120,7 @@ public class ConfirmOrderService {
             LOG.info("令牌校验不通过");
             throw new BusinessException(BusinessExceptionEnum.CONFIRM_ORDER_SK_TOKEN_FAIL);
         }
-        String lockKey = DateUtil.formatDate(req.getDate()) + "-" + req.getTrainCode();
+        String lockKey = RedisKeyPreEnum.CONFIRM_ORDER + "-" + DateUtil.formatDate(req.getDate()) + "-" + req.getTrainCode();
         // Boolean setIfAbsent = redisTemplate.opsForValue().setIfAbsent(lockKey, lockKey, 60, TimeUnit.SECONDS);
         // if (Boolean.TRUE.equals(setIfAbsent)) {
         //     LOG.info("恭喜，抢到锁了！lockKey：{}", lockKey);
