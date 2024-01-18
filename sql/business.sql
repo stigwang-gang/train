@@ -220,6 +220,8 @@ create table `sk_token` (
 
 
 select *from sk_token where date='2024-01-04 03:00:00.0'and train_code = 'M5' and `count` > 0;
-update sk_token set `count` = if (`count` < 1, 0, `count` - 1) where DATE(`date`) = '2024-01-04 03:00:00.0' and train_code = 'M5' and `count` > 0
+update sk_token set `count` = if (`count` < 1, 0, `count` - 1) where DATE(`date`) = '2024-01-04 03:00:00.0' and train_code = 'M5' and `count` > 0;
+
+
 
 
