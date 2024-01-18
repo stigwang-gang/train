@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import train.business.req.ConfirmOrderDoReq;
+import train.business.service.BeforeConfirmOrderService;
 import train.business.service.ConfirmOrderService;
 import train.exception.BusinessExceptionEnum;
 import train.resp.CommonResp;
@@ -25,7 +26,7 @@ public class ConfirmOrderController {
     private static final Logger LOG = LoggerFactory.getLogger(ConfirmOrderController.class);
 
     @Resource
-    private ConfirmOrderService confirmOrderService;
+    private BeforeConfirmOrderService beforeConfirmOrderService;
 
     @Autowired
     private StringRedisTemplate redisTemplate;
@@ -51,7 +52,7 @@ public class ConfirmOrderController {
             redisTemplate.delete(imageCodeToken);
         }
 
-        confirmOrderService.doConfirm(req);
+        beforeConfirmOrderService.beforeDoConfirm(req);
         return new CommonResp<>();
     }
 
